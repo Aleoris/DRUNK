@@ -8,13 +8,32 @@ public class TriggerInteractableScript : MonoBehaviour
     [SerializeField] private Animator _animator;
     private static readonly int Activated = Animator.StringToHash("Activated");
     [SerializeField] private float cooldown;
-    private float timer = 0;
+    private float _timer = 0;
+    
+    private bool _triggered = false;
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name.ToLower().Contains("player"))
+        if (other.gameObject.name.ToLower().Contains("player") && _triggered)
         {
             _animator.SetBool(Activated, true);
-            timer = 0.0f;
+            _timer = 0.0f;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name.ToLower().Contains("player") && Input.GetButtonDown("Jump"))
+        {
+            _triggered = true;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name.ToLower().Contains("player") && Input.GetButtonDown("Jump"))
+        {
+            _triggered = true;
         }
     }
 
@@ -22,11 +41,13 @@ public class TriggerInteractableScript : MonoBehaviour
     {
         if (_animator.GetBool(Activated))
         {
-            if (timer >= cooldown)
+            if (_timer >= cooldown)
             {
                 _animator.SetBool(Activated, false);
+                _triggered = false;
             }
-            timer += Time.deltaTime;
+
+            _timer += Time.deltaTime;
         }
     }
 }
