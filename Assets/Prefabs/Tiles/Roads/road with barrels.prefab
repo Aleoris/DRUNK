@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 6509039612887774438}
+  cooldown: 60
 --- !u!65 &7300354162288095103
 BoxCollider:
   m_ObjectHideFlags: 0
